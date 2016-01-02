@@ -52,7 +52,9 @@ public class FirstFindElementAndByExercise {
         try {
             elementByName = driver.findElement(By.name("pNasme26"));
             fail("balbcxal");
-        } catch (NoSuchElementException e){elementByName = driver.findElement(By.name("pName26"));};
+        } catch (NoSuchElementException e){
+            elementByName = driver.findElement(By.name("pName26"));
+        }
 
         assertThat(elementByName.getAttribute("id"),is(equalTo("p26")));
 
