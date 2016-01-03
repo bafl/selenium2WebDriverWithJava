@@ -20,7 +20,7 @@ import static org.junit.Assert.assertThat;
  * selenium2WebDriverWithJava
  * Created by Bartek on 28.12.2015.
  */
-public class findElementsExercise {
+public class FindElementsExercise {
 
     private static WebDriver driver;
     private static String webpage;
