@@ -32,7 +32,7 @@ public class IntroductionToManipulation {
         @Test
         public void testUntitled() throws Exception {
             driver.get(baseUrl + "/selenium/basic_ajax.html");
-            category = new Select(driver.findElement(By.cssSelector("option[value='1']")));
+            category = new Select(driver.findElement(By.id("combo1")));
             System.out.println(category.isMultiple());
             category.selectByIndex(1);
             category.selectByIndex(2);
