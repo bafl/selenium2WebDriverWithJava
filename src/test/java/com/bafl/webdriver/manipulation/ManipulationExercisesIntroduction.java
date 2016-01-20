@@ -43,7 +43,7 @@ public class ManipulationExercisesIntroduction {
         public void submitFormAndAssertPageTitleChanges() throws Exception {
             driver.navigate().to(baseUrl + webpage);
             String pageTitle = driver.getTitle();
-            submitButton = driver.findElement(By.name("submitbutton"));
+            submitButton = driver.findElement(By.cssSelector("input[type='submit'][name='submitbutton']"));
             submitButton.submit();
             assertTrue(pageTitle.compareTo(driver.getTitle()) != 0);
             assertThat(driver.getTitle(), is(not(pageTitle)));
@@ -56,8 +56,8 @@ public class ManipulationExercisesIntroduction {
             assertEquals("verify content of textarea", commentsTextarea.getText(),"Comments...");
             commentsTextarea.clear();
             commentsTextarea.sendKeys("Some text");
-            submitButton = driver.findElement(By.name("submitbutton"));
-            submitButton.submit();
+            submitButton = driver.findElement(By.cssSelector("input[type='submit'][name='submitbutton']"));
+            submitButton.click();
             WebElement comment = driver.findElement(By.cssSelector("li"));
             assertEquals(comment.getText(),"Some text");
         }
@@ -83,7 +83,7 @@ public class ManipulationExercisesIntroduction {
 
                 radioOne.click();
             }
-            submitButton = driver.findElement(By.name("submitbutton"));
+            submitButton = driver.findElement(By.cssSelector("input[type='submit'][name='submitbutton']"));
             submitButton.submit();
             assertThat(driver.findElement(By.cssSelector(" p[name='_radioval'] + ul  li")).getText(),is("rd1"));
         }
@@ -93,7 +93,7 @@ public class ManipulationExercisesIntroduction {
             driver.navigate().to(baseUrl + webpage);
             WebElement selectOption = driver.findElement(By.cssSelector("select[name='dropdown'] option[value='dd5']"));
             selectOption.click();
-            submitButton = driver.findElement(By.name("submitbutton"));
+            submitButton = driver.findElement(By.cssSelector("input[type='submit'][name='submitbutton']"));
             submitButton.submit();
             assertThat(driver.findElement(By.cssSelector("#_dropdown li")).getText(),is("dd5"));
         }
@@ -139,7 +139,7 @@ public class ManipulationExercisesIntroduction {
         public void submitWithAFileAndCheckNameOnOutput(){
             driver.navigate().to(baseUrl + webpage);
             driver.findElement(By.name("filename")).sendKeys("C:\\Users\\Bartek\\SkyDrive\\ebooki\\javaForTesters.pdf");
-            driver.findElement(By.name("submitbutton")).submit();
+            driver.findElement(By.cssSelector("input[type='submit'][name='submitbutton']")).submit();
             assertThat(driver.findElement(By.id("_valuefilename")).getText(),is("javaForTesters.pdf"));
         }
 
