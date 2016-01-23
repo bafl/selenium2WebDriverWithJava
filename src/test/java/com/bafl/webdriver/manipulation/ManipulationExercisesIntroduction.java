@@ -43,8 +43,7 @@ public class ManipulationExercisesIntroduction {
         public void submitFormAndAssertPageTitleChanges() throws Exception {
             driver.navigate().to(baseUrl + webpage);
             String pageTitle = driver.getTitle();
-            submitButton = driver.findElement(By.cssSelector("input[type='submit'][name='submitbutton']"));
-            submitButton.submit();
+            clickSubmitButton(driver);
             assertTrue(pageTitle.compareTo(driver.getTitle()) != 0);
             assertThat(driver.getTitle(), is(not(pageTitle)));
         }
@@ -56,8 +55,7 @@ public class ManipulationExercisesIntroduction {
             assertEquals("verify content of textarea", commentsTextarea.getText(),"Comments...");
             commentsTextarea.clear();
             commentsTextarea.sendKeys("Some text");
-            submitButton = driver.findElement(By.cssSelector("input[type='submit'][name='submitbutton']"));
-            submitButton.click();
+            clickSubmitButton(driver);
             WebElement comment = driver.findElement(By.cssSelector("li"));
             assertEquals(comment.getText(),"Some text");
         }
@@ -70,22 +68,25 @@ public class ManipulationExercisesIntroduction {
 
                 radioTwo.click();
             }
-            submitButton = driver.findElement(By.name("submitbutton"));
-            submitButton.submit();
+            clickSubmitButton(driver);
             assertThat(driver.findElement(By.cssSelector(" p[name='_radioval'] + ul  li")).getText(),is("rd2"));
         }
 
         @Test
         public void submitFormWithOnlyCheckboxOneSelected(){
             driver.navigate().to(baseUrl + webpage);
-            WebElement radioOne = driver.findElement(By.cssSelector("input[value='rd1']"));
-            if (!radioOne.isSelected()){
-
-                radioOne.click();
+            WebElement checkboxOne;
+            WebElement checkboxThree;
+            checkboxOne = driver.findElement(By.cssSelector("input[value='cb1']"));
+            checkboxThree = driver.findElement(By.cssSelector("input[value='cb3']"));
+            if (!checkboxOne.isSelected()){
+                checkboxOne.click();
             }
-            submitButton = driver.findElement(By.cssSelector("input[type='submit'][name='submitbutton']"));
-            submitButton.submit();
-            assertThat(driver.findElement(By.cssSelector(" p[name='_radioval'] + ul  li")).getText(),is("rd1"));
+            if (checkboxThree.isSelected()){
+                checkboxThree.click();
+            }
+            clickSubmitButton(driver);
+            assertThat(driver.findElement(By.cssSelector(" p[name='_checkboxes'] + ul  li")).getText(),is("cb1"));
         }
 
         @Test
@@ -93,8 +94,7 @@ public class ManipulationExercisesIntroduction {
             driver.navigate().to(baseUrl + webpage);
             WebElement selectOption = driver.findElement(By.cssSelector("select[name='dropdown'] option[value='dd5']"));
             selectOption.click();
-            submitButton = driver.findElement(By.cssSelector("input[type='submit'][name='submitbutton']"));
-            submitButton.submit();
+            clickSubmitButton(driver);
             assertThat(driver.findElement(By.cssSelector("#_dropdown li")).getText(),is("dd5"));
         }
 
@@ -109,9 +109,7 @@ public class ManipulationExercisesIntroduction {
                 multipleSelect.selectByValue("ms3");
             }
 
-
-            submitButton = driver.findElement(By.name("submitbutton"));
-            submitButton.submit();
+            clickSubmitButton(driver);
 
             List<WebElement> selectedOptionsList = driver.findElements(By.cssSelector("#_multipleselect li"));
             for (WebElement e : selectedOptionsList){
@@ -139,14 +137,22 @@ public class ManipulationExercisesIntroduction {
         public void submitWithAFileAndCheckNameOnOutput(){
             driver.navigate().to(baseUrl + webpage);
             driver.findElement(By.name("filename")).sendKeys("C:\\Users\\Bartek\\SkyDrive\\ebooki\\javaForTesters.pdf");
-            driver.findElement(By.cssSelector("input[type='submit'][name='submitbutton']")).submit();
+            clickSubmitButton(driver);
+//            driver.findElement(By.cssSelector("input[type='submit'][name='submitbutton']")).submit();
             assertThat(driver.findElement(By.id("_valuefilename")).getText(),is("javaForTesters.pdf"));
         }
 
-        @AfterClass
+    @AfterClass
         public static void tearDown() {
             driver.close();
             driver.quit();
         }
 
+        public void clickSubmitButton(WebDriver driver){
+            this.driver = driver;
+            WebElement submitButton;
+            submitButton = driver.findElement(By.cssSelector("input[type='submit'][name='submitbutton']"));
+            submitButton.click();
         }
+
+    }
