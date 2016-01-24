@@ -9,11 +9,15 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -92,8 +96,23 @@ public class ManipulationExercisesIntroduction {
         @Test
         public void submitFormWithDropDownItemFiveSelected(){
             driver.navigate().to(baseUrl + webpage);
-            WebElement selectOption = driver.findElement(By.cssSelector("select[name='dropdown'] option[value='dd5']"));
-            selectOption.click();
+            WebElement dropDownOption = driver.findElement(By.cssSelector("select[name='dropdown'] option[value='dd5']"));
+            dropDownOption.click();
+            clickSubmitButton(driver);
+            assertThat(driver.findElement(By.cssSelector("#_dropdown li")).getText(),is("dd5"));
+        }
+
+        @Test
+        public void submitFormWithDropDownItemFiveSelectedUsingKeys() throws InterruptedException {
+            driver.navigate().to(baseUrl + webpage);
+            WebElement dropDown = driver.findElement(By.cssSelector("select[name='dropdown']"));
+
+            while (!dropDown.findElement(By.cssSelector("option[value='dd5'")).isSelected()){
+            dropDown.sendKeys(
+                    Keys.ARROW_DOWN
+            );
+            }
+
             clickSubmitButton(driver);
             assertThat(driver.findElement(By.cssSelector("#_dropdown li")).getText(),is("dd5"));
         }
@@ -134,12 +153,14 @@ public class ManipulationExercisesIntroduction {
         }
 
         @Test
-        public void submitWithAFileAndCheckNameOnOutput(){
+        public void submitWithAFileAndCheckNameOnOutput() throws URISyntaxException, IOException {
             driver.navigate().to(baseUrl + webpage);
-            driver.findElement(By.name("filename")).sendKeys("C:\\Users\\Bartek\\SkyDrive\\ebooki\\javaForTesters.pdf");
+            File file = new File(this.getClass().getResource("/testFile.txt").toURI());
+            System.out.println(this.getClass());
+            System.out.println(file.getAbsolutePath());
+            driver.findElement(By.name("filename")).sendKeys(file.getAbsolutePath());
             clickSubmitButton(driver);
-//            driver.findElement(By.cssSelector("input[type='submit'][name='submitbutton']")).submit();
-            assertThat(driver.findElement(By.id("_valuefilename")).getText(),is("javaForTesters.pdf"));
+            assertThat(driver.findElement(By.id("_valuefilename")).getText(),is("testFile.txt"));
         }
 
     @AfterClass
