@@ -1,5 +1,6 @@
 package com.bafl.webdriver.interaction.alerts;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -92,6 +93,12 @@ public class AlertExercises {
         WebElement promptTextBox;
         promptTextBox = driver.findElement(By.id("promptreturn"));
         assertThat(promptTextBox.getText(),is("Some other text"));
+    }
+
+    @AfterClass
+    public static void quit(){
+        driver.close();
+        driver.quit();
     }
 
     private Alert showAlert() {
