@@ -1,4 +1,4 @@
-package com.bafl.webdriver.interaction;
+package com.bafl.webdriver.interaction.actions;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
