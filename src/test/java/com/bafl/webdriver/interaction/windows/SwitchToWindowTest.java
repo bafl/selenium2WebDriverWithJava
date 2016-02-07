@@ -18,7 +18,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-public class WindowsExampleTest {
+public class SwitchToWindowTest {
     public static WebDriver driver;
 
     @BeforeClass
