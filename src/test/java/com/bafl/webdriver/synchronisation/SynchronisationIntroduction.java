@@ -8,11 +8,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Iterator;
 import java.util.List;
 
 import static com.bafl.webdriver.navigation.NavigateToURL.URL;
+import static org.junit.Assert.assertEquals;
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 /**
  * selenium2WebDriverWithJava
@@ -20,11 +23,13 @@ import static com.bafl.webdriver.navigation.NavigateToURL.URL;
  */
 public class SynchronisationIntroduction {
     static WebDriver driver;
+    static WebDriverWait wait;
 
     @BeforeClass
     public static void setUp(){
         driver = new FirefoxDriver();
         driver.navigate().to(URL + "basic_ajax.html");
+        wait = new WebDriverWait(driver,10,50);
     }
 
     @Test
@@ -35,6 +40,7 @@ public class SynchronisationIntroduction {
             throw new NoSuchElementException("No such elements found");
         }
         categorySelect = new Select(selects.get(0));
+        languageSelect = new Select(selects.get(1));
 
         //just playing around with some extra Java stuff
         Iterator<WebElement> optionsIterator = categorySelect.getOptions().iterator();
@@ -43,9 +49,20 @@ public class SynchronisationIntroduction {
         }
 
         categorySelect.selectByVisibleText("Server");
-        languageSelect = new Select(selects.get(1));
+        wait.until(visibilityOfElementLocated(By.xpath("//option[contains(.,'Cobol')]")));
         languageSelect.selectByVisibleText("Java");
 
+        categorySelect.selectByVisibleText("Web");
+        wait.until(elementToBeSelected(By.cssSelector("#combo2 > option[value='0']")));
+        languageSelect.selectByVisibleText("Flash");
 
+        categorySelect.selectByVisibleText("Desktop");
+        wait.until(invisibilityOfElementLocated(By.cssSelector("#ajaxBusy")));
+        languageSelect.selectByVisibleText("C");
+
+        driver.findElement(By.name("submitbutton")).click();
+        wait.until(titleIs("Processed Form Details"));
+
+        assertEquals("Expected language id=12", Integer.parseInt(driver.findElement(By.xpath("//li[@id='_valuelanguage_id']")).getText()), 12);
     }
 }
