@@ -5,6 +5,7 @@ package com.bafl.webdriver.synchronisation;
  * Created by Bartek on 19.02.2016.
  */
 
+import com.bafl.webdriver.manager.DriverManager;
 import com.google.common.base.Function;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -26,7 +27,7 @@ public class FluentWaitExercise {
 
     @BeforeClass
     public static void setUp() {
-        driver = new FirefoxDriver();
+        driver = DriverManager.getDriver();
     }
 
     @Test
@@ -51,7 +52,6 @@ public class FluentWaitExercise {
                     }
                 });
         System.out.println(wait.getClass());
-        ThreadLocal<WebDriver>
     }
 
     @Test

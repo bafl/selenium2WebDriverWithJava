@@ -5,6 +5,8 @@ package com.bafl.webdriver.synchronisation;
  * Created by Bartek on 15.02.2016.
  */
 
+import com.bafl.webdriver.manager.DriverManager;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -30,7 +32,7 @@ public class CustomExpectedCondition {
 
     @BeforeClass
     public static void setUp(){
-        driver = new FirefoxDriver();
+        driver = DriverManager.getDriver();
         driver.navigate().to(URL + "basic_ajax.html");
         wait = new WebDriverWait(driver,10,50);
     }
@@ -113,4 +115,9 @@ public class CustomExpectedCondition {
                 }
             }
         }
+
+    @AfterClass
+    public static void shutDown(){
+        driver.quit();
+    }
 }
