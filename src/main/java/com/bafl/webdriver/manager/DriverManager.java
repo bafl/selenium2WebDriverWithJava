@@ -10,8 +10,6 @@ import org.openqa.selenium.remote.SessionNotFoundException;
  */
 public class DriverManager {
     public static WebDriver aDriver = null;
-    public static final String BROWSER_PROPERTY = "selenium2Basics.driver";
-
 
     public static WebDriver getDriver() {
         if (aDriver == null) {
@@ -24,5 +22,10 @@ public class DriverManager {
         return aDriver;
     }
 
+    public static WebDriver getDriver(String url){
+        getDriver();
+        aDriver.navigate().to(url);
+        return aDriver;
+    }
 
 }
