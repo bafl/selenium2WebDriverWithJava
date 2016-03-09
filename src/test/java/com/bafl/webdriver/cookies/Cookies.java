@@ -35,7 +35,6 @@ public class Cookies {
         driver.navigate().to("http://compendiumdev.co.uk/selenium/search.php");
         driver.manage().deleteAllCookies();
         refreshWebElements();
-        System.out.println("Every time");
     }
 
     @Test
@@ -65,6 +64,17 @@ public class Cookies {
         search("Selenium");
         assertEquals("Next visit value expected to be: 43",String.valueOf(43),driver.manage().getCookieNamed(VISIT_NUMBER_COOKIE).getValue());
     }
+
+    @Test
+    public void setVisitsCookieTo42AndCheckNextSearchIs43ByCreatingCookieUsingBuilder(){
+        Cookie.Builder newVisitCookieBuilder = new Cookie.Builder(VISIT_NUMBER_COOKIE,"42");
+        newVisitCookieBuilder.domain("compendiumdev.co.uk");
+        newVisitCookieBuilder.path("/selenium/");
+        driver.manage().addCookie(newVisitCookieBuilder.build());
+        search("Something else");
+        assertEquals("Next visit value expected to be: 43",String.valueOf(43),driver.manage().getCookieNamed(VISIT_NUMBER_COOKIE).getValue());
+    }
+
     @AfterClass
     public static void quit(){
         driver.close();
